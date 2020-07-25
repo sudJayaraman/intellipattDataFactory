@@ -1,0 +1,33 @@
+{
+	"name": "DS_Blob_Source_Parameterized",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob_demosa127",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatasetFileName": {
+				"type": "string",
+				"defaultValue": "purchaseorder.txt"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().DatasetFileName",
+					"type": "Expression"
+				},
+				"container": "source"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
