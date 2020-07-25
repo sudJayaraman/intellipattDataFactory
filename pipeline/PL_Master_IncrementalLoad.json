@@ -1,6 +1,7 @@
 {
 	"name": "PL_Master_IncrementalLoad",
 	"properties": {
+		"description": "This Pipeline is meant to load data incrementally for multiple tables",
 		"activities": [
 			{
 				"name": "LKP_ConfigurationTable",
