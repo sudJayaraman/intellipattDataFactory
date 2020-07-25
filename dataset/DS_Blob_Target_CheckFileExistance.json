@@ -1,15 +1,25 @@
 {
-	"name": "DS_Blob_Target",
+	"name": "DS_Blob_Target_CheckFileExistance",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blob_rtest111",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DSFileName": {
+				"type": "string",
+				"defaultValue": "CustomerData_sud.csv"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().DSFileName",
+					"type": "Expression"
+				},
 				"container": "test"
 			},
 			"columnDelimiter": ",",

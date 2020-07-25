@@ -2,7 +2,7 @@
 	"name": "DS_Blob_Source",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_Blob_demosa127",
+			"referenceName": "LS_Blob_rtest111",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "purchaseorder.txt",
-				"container": "source"
+				"fileName": "CustomerData_sud.csv",
+				"container": "dev"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

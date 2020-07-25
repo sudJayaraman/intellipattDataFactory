@@ -1,16 +1,26 @@
 {
-	"name": "DS_Blob_Target",
+	"name": "DS_Blob_Source_Parameterised",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blob_rtest111",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string",
+				"defaultValue": "CustomerData_sud.csv"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "test"
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"container": "dev"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
