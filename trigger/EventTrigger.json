@@ -1,0 +1,28 @@
+{
+	"name": "EventTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_Copy_Orders_Parameterised",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"FileName": "CustomerData_sud.csv"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/dev/blobs/customer",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/603326c0-95c6-42fa-9afe-359aeed8be9b/resourceGroups/Intellipaat_Learn/providers/Microsoft.Storage/storageAccounts/sudgpv2storage",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}
