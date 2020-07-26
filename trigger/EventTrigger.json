@@ -16,7 +16,8 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/dev/blobs/customer",
+			"blobPathBeginsWith": "/dev/blobs/",
+			"blobPathEndsWith": "csv",
 			"ignoreEmptyBlobs": true,
 			"scope": "/subscriptions/603326c0-95c6-42fa-9afe-359aeed8be9b/resourceGroups/Intellipaat_Learn/providers/Microsoft.Storage/storageAccounts/sudgpv2storage",
 			"events": [
