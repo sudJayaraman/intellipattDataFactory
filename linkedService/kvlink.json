@@ -1,0 +1,10 @@
+{
+	"name": "kvlink",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kvsudintellipatt.vault.azure.net/"
+		}
+	}
+}
