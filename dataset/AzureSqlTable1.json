@@ -1,0 +1,54 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_db01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PurchaseOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EmployeeCode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PuchaseOrderDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UnitPrice",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "Staging",
+			"table": "PurchaseOrder"
+		}
+	}
+}
