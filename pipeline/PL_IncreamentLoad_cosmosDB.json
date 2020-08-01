@@ -67,6 +67,24 @@
 								"sink": {
 									"path": "$['UnitPrice']"
 								}
+							},
+							{
+								"source": {
+									"name": "Quantity",
+									"type": "Int32"
+								},
+								"sink": {
+									"path": "$['Quantity']"
+								}
+							},
+							{
+								"source": {
+									"name": "InsertDateTime",
+									"type": "DateTime"
+								},
+								"sink": {
+									"path": "$['InsertDateTime']"
+								}
 							}
 						]
 					}
