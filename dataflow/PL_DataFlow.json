@@ -19,7 +19,15 @@
 					"name": "Customer"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_Targetdb002_Orders",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "PurchaseOrderProjection"
@@ -34,7 +42,7 @@
 					"name": "Aggregate1"
 				}
 			],
-			"script": "source(output(\n\t\tPurchaseOrderID as short,\n\t\t{ CustomerCode} as short,\n\t\tProductCode as short,\n\t\tEmployeeCode as boolean,\n\t\t{ PuchaseOrderDate} as date,\n\t\t{ Quantity} as short,\n\t\t{ UnitPrice} as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> PurchaseOrder\nsource(output(\n\t\tCustomerCode as short,\n\t\t{ CustomerName} as string,\n\t\t{ Address} as string,\n\t\t{ PhoneNumber} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Customer\nPurchaseOrder select(mapColumn(\n\t\t{ CustomerCode},\n\t\tProductCode,\n\t\t{ Quantity},\n\t\t{ UnitPrice}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PurchaseOrderProjection\nCustomer select(mapColumn(\n\t\tCustomerCode,\n\t\t{ CustomerName}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CustomerProjection\nPurchaseOrderProjection, CustomerProjection join({ CustomerCode} == CustomerCode,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinPurchaseOrderCustomer\nJoinPurchaseOrderCustomer aggregate(groupBy(ProductCode),\n\t{ Quantity} = sum({ Quantity})) ~> Aggregate1"
+			"script": "source(output(\n\t\tPurchaseOrderID as short,\n\t\t{ CustomerCode} as short,\n\t\tProductCode as short,\n\t\tEmployeeCode as boolean,\n\t\t{ PuchaseOrderDate} as date,\n\t\t{ Quantity} as short,\n\t\t{ UnitPrice} as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> PurchaseOrder\nsource(output(\n\t\tCustomerCode as short,\n\t\t{ CustomerName} as string,\n\t\t{ Address} as string,\n\t\t{ PhoneNumber} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Customer\nPurchaseOrder select(mapColumn(\n\t\t{ CustomerCode},\n\t\tProductCode,\n\t\t{ Quantity},\n\t\t{ UnitPrice}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PurchaseOrderProjection\nCustomer select(mapColumn(\n\t\tCustomerCode,\n\t\t{ CustomerName}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CustomerProjection\nPurchaseOrderProjection, CustomerProjection join({ CustomerCode} == CustomerCode,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinPurchaseOrderCustomer\nJoinPurchaseOrderCustomer aggregate(groupBy(ProductCode),\n\t{ Quantity} = sum({ Quantity})) ~> Aggregate1\nAggregate1 sink(input(\n\t\tOrderID as integer,\n\t\tProductID as string,\n\t\tCustomerID as string,\n\t\tUnitPrice as decimal(10,4),\n\t\tQuantity as integer,\n\t\tInsertDateTime as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 		}
 	}
 }
