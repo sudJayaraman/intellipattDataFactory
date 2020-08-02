@@ -41,7 +41,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "orders"
+			"table": "ProductProjection"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
