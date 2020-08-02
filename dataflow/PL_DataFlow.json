@@ -26,9 +26,15 @@
 				},
 				{
 					"name": "CustomerProjection"
+				},
+				{
+					"name": "JoinPurchaseOrderCustomer"
+				},
+				{
+					"name": "Aggregate1"
 				}
 			],
-			"script": "source(output(\n\t\tPurchaseOrderID as short,\n\t\t{ CustomerCode} as short,\n\t\tProductCode as short,\n\t\tEmployeeCode as boolean,\n\t\t{ PuchaseOrderDate} as date,\n\t\t{ Quantity} as short,\n\t\t{ UnitPrice} as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> PurchaseOrder\nsource(output(\n\t\tCustomerCode as short,\n\t\t{ CustomerName} as string,\n\t\t{ Address} as string,\n\t\t{ PhoneNumber} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Customer\nPurchaseOrder select(mapColumn(\n\t\t{ CustomerCode},\n\t\tProductCode,\n\t\t{ Quantity},\n\t\t{ UnitPrice}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PurchaseOrderProjection\nCustomer select(mapColumn(\n\t\tCustomerCode,\n\t\t{ CustomerName}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CustomerProjection"
+			"script": "source(output(\n\t\tPurchaseOrderID as short,\n\t\t{ CustomerCode} as short,\n\t\tProductCode as short,\n\t\tEmployeeCode as boolean,\n\t\t{ PuchaseOrderDate} as date,\n\t\t{ Quantity} as short,\n\t\t{ UnitPrice} as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> PurchaseOrder\nsource(output(\n\t\tCustomerCode as short,\n\t\t{ CustomerName} as string,\n\t\t{ Address} as string,\n\t\t{ PhoneNumber} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Customer\nPurchaseOrder select(mapColumn(\n\t\t{ CustomerCode},\n\t\tProductCode,\n\t\t{ Quantity},\n\t\t{ UnitPrice}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PurchaseOrderProjection\nCustomer select(mapColumn(\n\t\tCustomerCode,\n\t\t{ CustomerName}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CustomerProjection\nPurchaseOrderProjection, CustomerProjection join({ CustomerCode} == CustomerCode,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinPurchaseOrderCustomer\nJoinPurchaseOrderCustomer aggregate(groupBy(ProductCode),\n\t{ Quantity} = sum({ Quantity})) ~> Aggregate1"
 		}
 	}
 }
