@@ -6,15 +6,26 @@
 			"sources": [
 				{
 					"dataset": {
+						"referenceName": "DS_csv_PO",
+						"type": "DatasetReference"
+					},
+					"name": "PurchaseOrder"
+				},
+				{
+					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "srce1"
+					"name": "Customer"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "source(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> srce1"
+			"transformations": [
+				{
+					"name": "PurchaseOrderProjection"
+				}
+			],
+			"script": "source(output(\n\t\tPurchaseOrderID as short,\n\t\t{ CustomerCode} as short,\n\t\tProductCode as short,\n\t\tEmployeeCode as boolean,\n\t\t{ PuchaseOrderDate} as date,\n\t\t{ Quantity} as short,\n\t\t{ UnitPrice} as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> PurchaseOrder\nsource(output(\n\t\tCustomerCode as short,\n\t\t{ CustomerName} as string,\n\t\t{ Address} as string,\n\t\t{ PhoneNumber} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Customer\nPurchaseOrder select(mapColumn(\n\t\tPurchaseOrderID,\n\t\t{ CustomerCode},\n\t\tProductCode,\n\t\tEmployeeCode,\n\t\t{ PuchaseOrderDate},\n\t\t{ Quantity},\n\t\t{ UnitPrice}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PurchaseOrderProjection"
 		}
 	}
 }
